@@ -78,7 +78,8 @@ func ParseWith(cfg *Config) (*cc.TranslationUnit, error) {
 		}
 	}
 	if cfg.CCDefs && ccDefsOK {
-		predefined += fmt.Sprintf("\n%s", ccDefs)
+		// redefine __GNUC__ to bypass "# if __GNUC_PREREQ (4, 3)" in /usr/include/x86_64-linux-gnu/bits/byteswap.h
+		predefined += fmt.Sprintf("\n%s#undef __GNUC__\n#define __GNUC__ 3", ccDefs)
 	} else {
 		predefined += basePredefines
 		if archDefs, ok := archPredefines[cfg.archBits]; ok {

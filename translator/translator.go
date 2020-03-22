@@ -681,6 +681,9 @@ func (t *Translator) TranslateSpec(spec CType, tips ...Tip) GoTypeSpec {
 			lookupSpec.Unsigned = typeSpec.Unsigned
 			lookupSpec.Signed = typeSpec.Signed
 		}
+		if typeSpec.Raw == "size_t" {
+			lookupSpec.Raw = "size_t" // TODO: just for lotus
+		}
 		if gospec, ok := t.lookupSpec(lookupSpec); ok {
 			tag := typeSpec.CGoName()
 			if gospec == UnsafePointerSpec && len(tag) > 0 {
